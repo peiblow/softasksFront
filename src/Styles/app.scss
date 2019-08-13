@@ -1,0 +1,163 @@
+.content-app {
+    height: 100%;
+    padding: 50px 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.board-select {
+    border: 1px solid;
+    padding: 10px;
+    border-radius: 5px;
+    width: 20vh;
+    justify-content: space-between;
+
+    p {
+        margin: 5px;
+    }
+}
+
+.pendente {
+    height: 65vh;
+    background-color: #bdbdbd11;
+    border-radius: 5px;
+    text-align: left;
+    margin: 0px 5px 15px;
+    padding: 20px;
+    
+
+    .pendente-title {
+        padding: 0px 10px;
+        background-color: red;
+        color: white;
+
+        p {
+            margin: 10px;
+        }
+    }
+
+    .pendente-content {
+        overflow: auto;
+        height: 55vh;
+    }
+}
+
+.andamento {
+    height: 65vh;
+    background-color: #bdbdbd11;
+    border-radius: 5px;
+    text-align: left;
+    margin: 0px 5px 15px;
+    padding: 20px;
+
+    .andamento-title {
+        padding: 0px 10px;
+        background-color: orange;
+        color: white;
+
+        p {
+            margin: 10px;
+        }
+    }
+
+    .andamento-content {
+        overflow: auto;
+        height: 55vh;
+    }
+}
+
+.concluido {
+    height: 65vh;    
+    background-color: #bdbdbd11;
+    border-radius: 5px;
+    text-align: left;
+    margin: 0px 5px 15px;
+    padding: 20px;
+
+    .concluido-title {
+        padding: 0px 10px;
+        background-color: green;
+        color: white;
+        
+        p {
+            margin: 10px;
+        }
+    }
+
+    .concluido-content {
+        overflow: auto;
+        height: 55vh;
+    }
+}
+
+.task-navigation{
+    background-color: grey;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.no-tasks {
+    height: 85%;
+    padding: 200px 0px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.task {
+    padding: 20px;
+    margin: 20px;
+}
+
+.headerDialog {
+    width: 100%;
+    background-color: #00FFE5;
+    padding: 5px;
+    text-align: right;
+    justify-content: space-between;
+
+    button {
+        outline:none !important;
+    }
+}
+
+.task-title {
+    color: white;
+    margin: 10px;
+    font-size: 25px;
+    background-color: #00EFD6;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.task-description {
+    padding: 15px;
+    margin: 20px;
+    border: 1px solid #00EFD6;
+    border-radius: 10px;
+}
+
+.task-labels {
+    padding: 5px 20px;
+    background-color: #00d2bc;
+
+    div {
+        margin: 0px 5px;
+    }
+
+    button {
+        padding: 8px 10px;
+        outline:none !important;
+    }
+}
+
+.edit-action-task {
+    background-color: #00ffe5;
+}
+
+@import '~bootstrap/scss/bootstrap.scss';

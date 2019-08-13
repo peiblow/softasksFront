@@ -3,9 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.21",
+    "@fortawesome/free-solid-svg-icons": "^5.10.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "@material-ui/core": "^4.3.1",
+    "@material-ui/icons": "^4.2.1",
+    "apisauce": "^1.0.3",
+    "bootstrap": "^4.3.1",
+    "compose-react": "^1.0.6",
+    "dotenv": "^8.0.0",
+    "node-sass": "^4.12.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "redux": "^4.0.4",
+    "redux-persist": "^5.10.0",
+    "reduxsauce": "^1.1.0",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
