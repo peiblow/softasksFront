@@ -13,6 +13,7 @@ import DeleteTask from '../task/deleteTask';
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from '@material-ui/core/Zoom';
+import Chip from '@material-ui/core/Chip';
 
 import "../../Styles/app.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -48,8 +49,8 @@ class TasksList extends Component {
                                         >
                                             <div className="d-flex justify-content-between">
                                                 <div>
-                                                    <h2>{item.title}</h2><br/>
-                                                    <p>{item.status}</p>
+                                                    <h3>{item.title}</h3>
+                                                    <Chip style={{ margin: '10px 0px', borderColor: 'red', color: 'red' }} variant="outlined" size="small" label={item.status.toUpperCase()} />
                                                 </div>
                                                 <div className="d-flex">
                                                     <DeleteTask task={item} />
@@ -94,8 +95,8 @@ class TasksList extends Component {
                                         >
                                             <div className="d-flex justify-content-between">
                                                 <div>
-                                                    <h2>{item.title}</h2><br/>
-                                                    <p>{item.status}</p>
+                                                    <h3>{item.title}</h3>
+                                                    <Chip style={{ margin: '10px 0px', borderColor: 'orange', color: 'orange' }} variant="outlined" size="small" label={item.status.toUpperCase()} />
                                                 </div>
                                                 <div className="d-flex">
                                                     <DeleteTask task={item} />
@@ -150,8 +151,8 @@ class TasksList extends Component {
                                         >
                                             <div className="d-flex justify-content-between">
                                                 <div>
-                                                    <h2>{item.title}</h2><br/>
-                                                    <p>{item.status}</p>
+                                                    <h3>{item.title}</h3>
+                                                    <Chip style={{ margin: '10px 0px', borderColor: 'green', color: 'green' }} variant="outlined" size="small" label={item.status.toUpperCase()} />
                                                 </div>
                                                 <div className="d-flex">
                                                     <DeleteTask task={item} />

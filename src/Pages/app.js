@@ -13,11 +13,12 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 
 import "../Styles/app.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChevronDown, faTimesCircle, faPenSquare,
+  faChevronDown, faTimesCircle, faPenSquare, faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 class App extends Component {
@@ -33,6 +34,8 @@ class App extends Component {
         boardActive: '',
         info: {},
         anchorEl: null,
+        editBoard: false,
+        values: {}
     };
 
     UNSAFE_componentWillMount() {
@@ -99,8 +102,22 @@ class App extends Component {
                 boards: newBoard,
                 board: boardActive
             })
+        });
+
+        socket.on('BoardExcluded', board => {
+            const { boards, boardActive, setBoards } = this.props;
+            
+            let newBoard = [];
+            newBoard = boards.filter((item) => item.id !== board._id); 
+
+            setBoards({
+                boards: newBoard,
+                board: newBoard[0]
+            })
         })
     }
+
+    
 
     handleChange = (value) => {
         const { boards, setBoardActive } = this.props;
@@ -186,8 +203,58 @@ class App extends Component {
         })
     }
 
+    //HANDLERS EDIT BOARD
+    handleEditBoard = (boardActive) => {
+        let title = boardActive.name
+        this.setState({
+            editBoard: true,
+            values: { title }
+        })
+    }
+
+    handleCancelEditBoard = () => {
+        this.setState({
+            editBoard: false
+        })
+    }
+
+    handleChangeBoard = name => event => {
+        const { values } = this.state;
+        this.setState({  values: { ...values, [name]: event.target.value } });
+    };
+
+    handleSubmitEdit = () => {
+        const { values } = this.state;
+        const { boards, setBoards, boardActive } = this.props;
+
+        api.put('/' + boardActive.id, {
+            type: 'board',
+            payload: {
+                title: values.title,
+            }
+        }).then(res => {
+            let name = res.data.title
+            let newBoards = boards.map((item) => {
+                return item.id === boardActive.id ?                
+                    item = { ...item, name }                
+                : item;
+            });
+
+            setBoards({ boards: newBoards, board: { ...boardActive, name } })
+
+            this.setState({
+                editBoard: false
+            })
+        });
+    }
+
+    handleExcludeBoard = () => {
+        const { boardActive } = this.props;
+        api.delete('/' + boardActive.id);
+    }
+
     render() {
-        const { tasks, anchorEl } = this.state;
+        const { tasks, anchorEl, editBoard, values } = this.state;
         const { boards, boardActive, info } = this.props;
 
         return (
@@ -197,50 +264,90 @@ class App extends Component {
                 <br/>
                 <div className="d-flex justify-content-center">
                     <div className="d-flex board-select" style={{ margin: '0px 10px 0px 0px' }}>
-                        <p>{boardActive.name}</p>
-                        <div>
-                            <Tooltip title="Selecionar Quadro">                        
-                                <IconButton style={{ padding: '5px', margin: '0px 5px', outline: 'none !important' }} size="medium" color="inherit" onClick={this.handleClick}>
+                        {editBoard == false ?(
+                            <p>{boardActive.name}</p>
+                        ):(
+                            <TextField
+                                id="standard-name"
+                                label="Titulo"
+                                value={values.title}
+                                onChange={this.handleChangeBoard('title')}
+                                margin="normal"
+                                fullWidth
+                                style={{ marginTop: '0px' }}
+                            />
+                        )}
+                        
+                        {editBoard == false ?(
+                            <div>
+                                <Tooltip title="Selecionar Quadro">                        
+                                    <IconButton style={{ padding: '5px', margin: '0px 5px', outline: 'none !important' }} size="medium" color="inherit" onClick={this.handleClick}>
+                                        <FontAwesomeIcon
+                                            style={{ color: "teal" }}
+                                            size="sm"
+                                            icon={faChevronDown}
+                                        />
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    id="simple-menu"
+                                    anchorEl={anchorEl}
+                                    open={Boolean(anchorEl)}
+                                    onClose={this.handleClose}                    
+                                >
+                                    {   boards.map((item) => {
+                                        return (
+                                            <MenuItem value={item.id} onClick={this.handleChange.bind(this, item.id)}>{ item.name }</MenuItem>   
+                                        )
+                                    })}
+                                </Menu>
+                            </div>
+                        ):''}                        
+                    </div>
+                    <div className="d-flex">
+                    {editBoard == false ?(
+                            <Tooltip title="Editar Quadro">
+                                <IconButton color="inherit" onClick={this.handleEditBoard.bind(this, boardActive)}>
                                     <FontAwesomeIcon
-                                        style={{ color: "teal" }}
+                                        color="primary"
                                         size="sm"
-                                        icon={faChevronDown}
+                                        icon={faPenSquare}
                                     />
                                 </IconButton>
                             </Tooltip>
-                            <Menu
-                                id="simple-menu"
-                                anchorEl={anchorEl}
-                                open={Boolean(anchorEl)}
-                                onClose={this.handleClose}                    
-                            >
-                                {   boards.map((item) => {
-                                    return (
-                                        <MenuItem value={item.id} onClick={this.handleChange.bind(this, item.id)}>{ item.name }</MenuItem>   
-                                    )
-                                })}
-                            </Menu>
-                        </div>
-                    </div>
-                    <div className="d-flex">
-                        <Tooltip title="Editar Quadro">
-                            <IconButton color="inherit" onClick={this.handleEditBoard}>
-                                <FontAwesomeIcon
-                                    color="primary"
-                                    size="sm"
-                                    icon={faPenSquare}
-                                />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Excluir Quadro">
-                            <IconButton color="inherit" onClick={this.handleClose}>
-                                <FontAwesomeIcon
-                                    color="primary"
-                                    size="sm"
-                                    icon={faTimesCircle}
-                                />
-                            </IconButton>
-                        </Tooltip>
+                        ):(<div>
+                            <Tooltip title="Confirmar Editar">
+                                <IconButton color="inherit" onClick={this.handleSubmitEdit}>
+                                    <FontAwesomeIcon
+                                        color="primary"
+                                        size="sm"
+                                        icon={faCheckCircle}
+                                    />
+                                </IconButton>
+                            </Tooltip>
+
+                            <Tooltip title="Cancelar Editar">
+                                <IconButton color="inherit" onClick={this.handleCancelEditBoard}>
+                                    <FontAwesomeIcon
+                                        color="primary"
+                                        size="sm"
+                                        icon={faTimesCircle}
+                                    />
+                                </IconButton>
+                            </Tooltip>
+                        </div>)}
+                        
+                        {editBoard == false ?(
+                            <Tooltip title="Excluir Quadro">
+                                <IconButton color="inherit" onClick={this.handleExcludeBoard}>
+                                    <FontAwesomeIcon
+                                        color="primary"
+                                        size="sm"
+                                        icon={faTimesCircle}
+                                    />
+                                </IconButton>
+                            </Tooltip>
+                        ):''}
                     </div>
                 </div>
 
