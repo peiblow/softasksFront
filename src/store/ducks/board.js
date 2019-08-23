@@ -98,7 +98,7 @@ export const setNextState = (state = INITIAL_STATE, action) => {
 
     let filterBoard = '';
     boards.map((item) => {
-        if(item.id == task.board){                
+        if(item.id === task.board){                
             filterBoard = item.tasks[0][task.status].filter((item) => item._id !== task._id)
             item.tasks[0][task.status] = filterBoard;
             return item             
@@ -113,14 +113,14 @@ export const setNextState = (state = INITIAL_STATE, action) => {
     }
     let newBoards = [];
     newBoards = boards.map((item) => {
-        if(item.id == task.board){
-            if(newTask.status == 'pendente' )
+        if(item.id === task.board){
+            if(newTask.status === 'pendente' )
                 item.tasks[0].pendente.push(newTask)
 
-            if(newTask.status == 'andamento')
+            if(newTask.status === 'andamento')
                 item.tasks[0].andamento.push(newTask)
 
-            if(newTask.status == 'finalizado')
+            if(newTask.status === 'finalizado')
                 item.tasks[0].finalizado.push(newTask)
             
             return item
@@ -141,7 +141,7 @@ export const onAtualizar = (state = INITIAL_STATE, action) => {
     
     let filterBoard = '';
     boards.map((item) => {
-        if(item.id == task.board){                
+        if(item.id === task.board){                
             filterBoard = item.tasks[0][task.status].filter((item) => item._id !== task._id)
             item.tasks[0][task.status] = filterBoard;
             return item             
@@ -157,14 +157,14 @@ export const onAtualizar = (state = INITIAL_STATE, action) => {
 
     let newBoards = [];
     newBoards = boards.map((item) => {
-        if(item.id == task.board){
-            if(newTask.status == 'pendente' )
+        if(item.id === task.board){
+            if(newTask.status === 'pendente' )
                 item.tasks[0].pendente.push(newTask)
 
-            if(newTask.status == 'andamento')
+            if(newTask.status === 'andamento')
                 item.tasks[0].andamento.push(newTask)
 
-            if(newTask.status == 'finalizado')
+            if(newTask.status === 'finalizado')
                 item.tasks[0].finalizado.push(newTask)
             
             return item

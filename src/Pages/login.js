@@ -53,7 +53,7 @@ const Login = ({ setLogado }) => {
         <div className="body-bg">
             <div className="col-lg-4 col-sm-6 col-xs-12">
                 <div class="area" >
-                    <ul class="circles">
+                    <ul class="squares">
                         <li></li>
                         <li></li>
                         <li></li>
@@ -68,7 +68,7 @@ const Login = ({ setLogado }) => {
                 </div>
                 <div>
                     <FontAwesomeIcon style={{ color: 'white' }} className='fa-2x' icon={faCheckCircle} />
-                    <img src={logo}/>
+                    <img src={logo} alt="Logo softasks" />
                 </div>
                 <div className="loginForm">
                     <TextField

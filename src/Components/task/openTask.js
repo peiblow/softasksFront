@@ -15,7 +15,6 @@ import Button from "@material-ui/core/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTimesCircle,
-  faCheckCircle,
   faPlusSquare,
   faExternalLinkAlt,
   faPenSquare
@@ -125,7 +124,7 @@ class OpenedTask extends Component {
                         <DialogContent style={{ padding: "0px" }}>
                             <div className="headerDialog d-flex">
                                 <div className="task-title">
-                                    {edit == false ?
+                                    {edit === false ?
                                         taskSelecionada.title
                                     :(
                                         <TextField
@@ -188,7 +187,7 @@ class OpenedTask extends Component {
                                     </Tooltip>
                                 </div>
                             <div className="task-description">                                
-                                {edit == false ?
+                                {edit === false ?
                                     taskSelecionada.description
                                 :(
                                     <TextField
@@ -203,7 +202,7 @@ class OpenedTask extends Component {
                                     />
                                 )} 
                             </div>
-                            {edit == true ?(
+                            {edit === true ?(
                                 <div className="edit-action-task d-flex justify-content-end">
                                     <Button style={{ color: 'white', margin: '5px 0px', padding: '5px 10px'  }} onClick={() => this.setState({ edit:false })}>
                                         Cancelar

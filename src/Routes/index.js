@@ -56,7 +56,7 @@ class AppRoute extends React.Component {
                     <BrowserRouter>
                         <Switch>
                             <PrivateRoute path="/app" logado={logado} component={App}/>
-                            <LoginRoute path="/login" logado={logado} component={Login}/>
+                            <LoginRoute path="/" logado={logado} component={Login}/>
                         </Switch>
                     </BrowserRouter>
                 </div>

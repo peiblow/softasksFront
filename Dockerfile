@@ -3,7 +3,7 @@ FROM node:alpine
 WORKDIR /usr/app/frontend
 
 COPY package*.json ./
-RUN npm install
+RUN npm install react-scripts -g && npm install
 
 COPY . .
 

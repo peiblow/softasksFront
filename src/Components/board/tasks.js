@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import api from '../../api/api';
-import io from 'socket.io-client';
 
-import board, { Creators as ActionsBoard } from '../../store/ducks/board';
+import { Creators as ActionsBoard } from '../../store/ducks/board';
 
 import Paper from "@material-ui/core/Paper";
 import OpenedTask from '../task/openTask';
@@ -18,8 +16,6 @@ import Chip from '@material-ui/core/Chip';
 import "../../Styles/app.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChevronDown,
-  faPlusCircle,
   faChevronLeft,
   faChevronRight
 } from "@fortawesome/free-solid-svg-icons";

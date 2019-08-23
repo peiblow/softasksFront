@@ -6,7 +6,6 @@ import { Creators as ActionsUser } from '../../store/ducks/usuario';
 import logo from '../../img/Softasks.svg';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button from "@material-ui/core/Button";
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
@@ -19,12 +18,32 @@ import NewBoard from '../board/newBoard';
 import '../../Styles/header.scss';
 
 class Header extends Component {
+    state = {
+        info: [
+            {
+                title: 'Pendente',
+                icon: faThList,
+                info: 'pendente'
+            },
+            {
+                title: 'Em Andamento',
+                icon: faSpinner,
+                info: 'andamento'
+            },
+            {
+                title: 'Finalizadas',
+                icon: faCheckSquare,
+                info: 'finalizado'
+            }
+        ]
+    }
     handleLogout = () => {
         const { setLogout } = this.props;
         setLogout();
     }
 
     render(){
+        const { info } = this.state;
         const { tasksInfo } = this.props;
 
         return (
@@ -33,7 +52,7 @@ class Header extends Component {
                     <Toolbar color="secondary" className="toolbar">
                         <div>
                             <FontAwesomeIcon style={{ color: 'white' }} className='fa-1x' icon={faCheckCircle} />
-                            <img width="124px" src={logo}/>
+                            <img width="124px" src={logo} alt="Logo Softasks"/>
                         </div>
                         <div className="d-flex">
                             <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
@@ -43,31 +62,19 @@ class Header extends Component {
                         </div>
                     </Toolbar>
 
-                    <div className="sub-toolbar d-flex">                        
-                        {/* <Button style={{ color: 'white', margin: '0px 15px 0px 0px', padding: '0px 10px'  }}>
-                            + Criar novo quadro
-                        </Button> */}
+                    <div className="sub-toolbar d-flex">
                         <NewBoard />
-                        <Tooltip title="Pendente">
-                            <div style={{ backgroundColor: '#ffffff3d', padding: '5px 10px', borderRadius: '5px', margin: '0px 5px 0px 0px' }}>
-                                <FontAwesomeIcon style={{ color: 'white', margin: '0px 5px' }} className='fa-sm' icon={faThList} />
-                                { tasksInfo ? tasksInfo.pendente : '0' }
-                            </div>
-                        </Tooltip>
 
-                        <Tooltip title="Em Andamento">
-                            <div style={{ backgroundColor: '#ffffff3d', padding: '5px 10px', borderRadius: '5px', margin: '0px 5px 0px 0px' }}>
-                                <FontAwesomeIcon style={{ color: 'white', margin: '0px 5px' }} className='fa-sm' icon={faSpinner} />
-                                { tasksInfo ? tasksInfo.andamento : '0' }
-                            </div>
-                        </Tooltip>
-
-                        <Tooltip title="Finalizadas">
-                            <div style={{ backgroundColor: '#ffffff3d', padding: '5px 10px', borderRadius: '5px', margin: '0px 20px 0px 0px' }}>
-                                <FontAwesomeIcon style={{ color: 'white', margin: '0px 6px' }} className='fa-sm' icon={faCheckSquare} />
-                                { tasksInfo ? tasksInfo.finalizado : '0' }
-                            </div>
-                        </Tooltip>
+                        {   info.map((item) => {
+                            return (
+                                <Tooltip title={item.title}>
+                                    <div style={{ backgroundColor: '#ffffff3d', padding: '5px 10px', borderRadius: '5px', margin: '0px 5px 0px 0px' }}>
+                                        <FontAwesomeIcon style={{ color: 'white', margin: '0px 5px' }} className='fa-sm' icon={item.icon} />
+                                        { tasksInfo ? tasksInfo[item.info] : '0' }
+                                    </div>
+                                </Tooltip>
+                            )
+                        })}
 
                         <IconButton className="sub-button" color="inherit">
                             <FontAwesomeIcon style={{ color: 'white' }} size="xs" icon={faSearch} />

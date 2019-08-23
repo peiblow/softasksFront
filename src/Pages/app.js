@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import api from '../api/api';
+import { 
+    getBoard
+} from '../api/board';
 import io from 'socket.io-client';
 
 import { Creators as ActionsBoard } from '../store/ducks/board';
@@ -18,7 +21,7 @@ import TextField from '@material-ui/core/TextField';
 import "../Styles/app.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChevronDown, faTimesCircle, faPenSquare, faCheckCircle,
+  faChevronDown, faTimesCircle, faPenSquare, faCheckCircle
 } from "@fortawesome/free-solid-svg-icons";
 
 class App extends Component {
@@ -40,11 +43,9 @@ class App extends Component {
 
     UNSAFE_componentWillMount() {
         const { user, setBoards } = this.props;
-        const socket = io(process.env.DEV_URL ? process.env.DEV_URL : 'http://localhost:3001');
+        const socket = io(process.env.DEV_URL ? process.env.DEV_URL : 'https://softasks.herokuapp.com/');
 
-        api.get('/', {
-            creator: user._id
-        }).then(res => {
+        getBoard({ creator: user._id }).then(res => {
             if(res.data.length > 0) {
                 let board = res.data[0];
                 let boards = res.data.map((item) => {
@@ -62,7 +63,7 @@ class App extends Component {
         });
 
         socket.on('NewBoard', board => {
-            const { boards, setBoards, setBoardActive } = this.props;
+            const { boards, setBoards } = this.props;
             setBoards({
                 boards: [ ...boards, { name: board.title, id: board._id, tasks: [{ pendente: [], andamento: [], finalizado: [] }] } ],
                 board: { name: board.title, id: board._id, tasks: [{ pendente: [], andamento: [], finalizado: [] }] }
@@ -73,10 +74,10 @@ class App extends Component {
             const { boards, boardActive, setBoards } = this.props;
             
             boards.map((item) => {
-                return item.id == board.board ? 
-                    board.status == 'pendente' ? item.tasks[0].pendente.push(board) :
-                    board.status == 'andamento' ? item.tasks[0].andamento.push(board) :
-                    board.status == 'finalizado' ? item.tasks[0].finalizado.push(board) : ''
+                return item.id === board.board ? 
+                    board.status === 'pendente' ? item.tasks[0].pendente.push(board) :
+                    board.status === 'andamento' ? item.tasks[0].andamento.push(board) :
+                    board.status === 'finalizado' ? item.tasks[0].finalizado.push(board) : ''
                 : ''
             });
 
@@ -89,7 +90,7 @@ class App extends Component {
             let newBoard = []
             let newTask = []
             newBoard = boards.map((item) => {
-                if(item.id == task.board){                
+                if(item.id === task.board){                
                     newTask = item.tasks[0][task.status].filter((item) => item._id !== task._id)
                     item.tasks[0][task.status] = newTask;
                     return item             
@@ -105,7 +106,7 @@ class App extends Component {
         });
 
         socket.on('BoardExcluded', board => {
-            const { boards, boardActive, setBoards } = this.props;
+            const { boards, setBoards } = this.props;
             
             let newBoard = [];
             newBoard = boards.filter((item) => item.id !== board._id); 
@@ -140,7 +141,7 @@ class App extends Component {
     };
 
     handleNextStatus = async (task) => {
-        const { boards, boardActive, setNextState, setBoards } = this.props;
+        const { boards, setNextState, setBoards } = this.props;
 
         let nextStatus = ''
         switch(task.status) {
@@ -254,7 +255,7 @@ class App extends Component {
     }
 
     render() {
-        const { tasks, anchorEl, editBoard, values } = this.state;
+        const { anchorEl, editBoard, values } = this.state;
         const { boards, boardActive, info } = this.props;
 
         return (
@@ -264,7 +265,7 @@ class App extends Component {
                 <br/>
                 <div className="d-flex justify-content-center">
                     <div className="d-flex board-select" style={{ margin: '0px 10px 0px 0px' }}>
-                        {editBoard == false ?(
+                        {editBoard === false ?(
                             <p>{boardActive.name}</p>
                         ):(
                             <TextField
@@ -278,7 +279,7 @@ class App extends Component {
                             />
                         )}
                         
-                        {editBoard == false ?(
+                        {editBoard === false ?(
                             <div>
                                 <Tooltip title="Selecionar Quadro">                        
                                     <IconButton style={{ padding: '5px', margin: '0px 5px', outline: 'none !important' }} size="medium" color="inherit" onClick={this.handleClick}>
@@ -305,7 +306,8 @@ class App extends Component {
                         ):''}                        
                     </div>
                     <div className="d-flex">
-                    {editBoard == false ?(
+                    
+                    {editBoard === false ?(
                             <Tooltip title="Editar Quadro">
                                 <IconButton color="inherit" onClick={this.handleEditBoard.bind(this, boardActive)}>
                                     <FontAwesomeIcon
@@ -337,7 +339,7 @@ class App extends Component {
                             </Tooltip>
                         </div>)}
                         
-                        {editBoard == false ?(
+                        {editBoard === false ?(
                             <Tooltip title="Excluir Quadro">
                                 <IconButton color="inherit" onClick={this.handleExcludeBoard}>
                                     <FontAwesomeIcon

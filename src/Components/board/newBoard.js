@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from '@material-ui/core/Zoom';
-import Chip from '@material-ui/core/Chip';
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -15,9 +14,7 @@ import Button from "@material-ui/core/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTimesCircle,
-  faCheckCircle,
-  faPlusSquare,
-  faExternalLinkAlt
+  faCheckCircle
 } from "@fortawesome/free-solid-svg-icons";
 
 import api from '../../api/api';
