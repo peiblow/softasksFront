@@ -17,7 +17,7 @@ import {
   faCheckCircle
 } from "@fortawesome/free-solid-svg-icons";
 
-import api from '../../api/api';
+import { addBoard } from '../../api/board';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Zoom direction="up" ref={ref} {...props} />;
@@ -46,13 +46,14 @@ class newBoard extends Component {
     handleSubmit = () => {
         const { values } = this.state;
         const { user } = this.props;
-
-        api.post('/', {
+        let dados = {
             title: values.title,
             description: values.description,
             creator: user._id,
             status: 'pendente'
-        }).then(res => {
+        }
+        
+        addBoard(dados).then(res => {
             this.setState({  values: { title: '', description: '' }, open: false });
         })
     }
